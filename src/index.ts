@@ -3,8 +3,34 @@ import express from 'express';
 const PORT = process.env.PORT || 3000;
 const env = process.env.NODE_ENV || 'development';
 
+// this is temporary to avoid error if knexfile.js was not copied into `dist` folder
+let config;
+try {
+  config = require('./knexfile');
+} catch (error) {
+  console.log('knexfile.js is missing. Using default values');
+
+  config = {
+    [env]: {
+      client: "postgresql",
+      connection: {
+        host: 'postgres',
+        database: "mi_movistar",
+        user: "postgres",
+        password: "postgres"
+      },
+      pool: {
+        min: 2,
+        max: 10
+      },
+      migrations: {
+        tableName: "knex_migrations"
+      }
+    }
+  };
+}
+
 // this is working better than import
-const config = require('./knexfile');
 const knex = require('Knex')(config[env]);
 const bookshelf = require('Bookshelf')(knex);
 

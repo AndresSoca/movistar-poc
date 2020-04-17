@@ -1,7 +1,7 @@
 // Update with your config settings.
 
 module.exports = {
-
+  // the values should come from env variables
   development: {
     client: "postgresql",
     connection: {
@@ -17,38 +17,6 @@ module.exports = {
     migrations: {
       tableName: "knex_migrations"
     }
-  },
-
-  staging: {
-    client: "postgresql",
-    connection: {
-      database: "mi_movistar",
-      user: "username",
-      password: "password"
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: "knex_migrations"
-    }
-  },
-
-  production: {
-    client: "postgresql",
-    connection: {
-      database: "mi_movistar",
-      user: "username",
-      password: "password"
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: "knex_migrations"
-    }
   }
-
+  // you can add more environments here
 };
