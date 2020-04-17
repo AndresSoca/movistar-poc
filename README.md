@@ -15,4 +15,6 @@ curl http://localhost:3000/ping
 
 ## WARNING
 
-Don't keep `.env` file in the repo. It's here as it makes demo example simpler.
+Don't forget to create table `mi_movistar` and run scripts `data/db-schema.sql` and `data/db-data.sql`.
+
+You can use Adminer that should be running on `localhost:8080` (System: PostgreSQL, Server: postgres, Username: postgres, Password: postgres, Database: mi_movistar)
