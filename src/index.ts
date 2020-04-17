@@ -38,6 +38,10 @@ const Item = bookshelf.model('Item', {
   }
 });
 
+const Customer = bookshelf.model('Customer', {
+  tableName: 'customer'
+})
+
 app.get('/purchase/', async (req, res) => {
   const items = await Item.fetchAll({ withRelated: ['type'], debug: true});
   
@@ -52,6 +56,17 @@ app.get('/purchase/', async (req, res) => {
 });
 
 app.get('/products/:customerId/', async (req, res) => {
+  const customerId = req.params.customerId;
+
+  // first validate customerId
+  const customer = await Customer.where({ id: customerId }).fetch({ require: false });
+  if (customer === null) {
+    res.status(400).send({
+      error: 'customerId does not exists'
+    });
+  }
+
+  // retrieve data
   const products = await bookshelf.knex
     .select('item_product.item_id as id', 'item.name', 'item_product_brand.name as brand', 'item_product_category.name as category', 'item_product_status.name as status').from('customer_item_products')
     .join('item', {'customer_item_products.item_product_id': 'item.id'})
@@ -59,11 +74,36 @@ app.get('/products/:customerId/', async (req, res) => {
     .join('item_product', {'customer_item_products.item_product_id': 'item_product.item_id'})
     .join('item_product_brand', {'item_product.brand_id': 'item_product_brand.id'})
     .join('item_product_category', {'item_product.category_id': 'item_product_category.id'})
-    .where({ customer_id: req.params.customerId });
+    .where({ customer_id: customerId });
 
   res.send({
-    customer_id: req.params.customerId,
+    customer_id: customerId,
     products
+  });
+});
+
+app.get('/services/:customerId/', async (req, res) => {
+  const customerId = req.params.customerId;
+
+  // first validate customerId
+  const customer = await Customer.where({ id: customerId }).fetch({ require: false });
+  if (customer === null) {
+    res.status(400).send({
+      error: 'customerId does not exists'
+    });
+  }
+
+  // retrieve data
+  const services = await bookshelf.knex
+    .select('item_service.item_id as id', 'item.name', 'customer_item_services.start_date as start', 'customer_item_services.end_date as end', 'item_service_status.name as status').from('customer_item_services')
+    .join('item', {'customer_item_services.item_service_id': 'item.id'})
+    .join('item_service_status', {'customer_item_services.status': 'item_service_status.id'})
+    .join('item_service', {'customer_item_services.item_service_id': 'item_service.item_id'})
+    .where({ customer_id: customerId });
+
+  res.send({
+    customer_id: customerId,
+    services
   });
 });
 
