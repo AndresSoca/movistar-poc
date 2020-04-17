@@ -55,7 +55,7 @@ CREATE TABLE "order_status" (
   "order_code" varchar,
   "status_id" int,
   "created_at" timestamp,
-  PRIMARY KEY ("order_code", "status_id")
+  PRIMARY KEY ("order_code", "status_id", "created_at")
 );
 
 CREATE TABLE "service_status" (
