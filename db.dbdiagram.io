@@ -1,19 +1,20 @@
 Table customer {
   id int [pk, increment] // auto-increment
-  full_name varchar
+  first_name varchar
+  last_name varchar
   document_type int [ref: > document.id] // inline relationship (many-to-one)
+  document_id varchar
 }
 
-Table service {
-  id int [pk]
-  name varchar
+Table item_service {
+  item_id int [pk, ref: > item.id]
+  purchable boolean
 }
 
-Table product {
-  id int [pk]
-  name varchar
-  brand_id int [ref: > product_brand.id]
-  category_id int [ref: > product_category.id]
+Table item_product {
+  item_id int [pk, ref: > item.id]
+  brand_id int [ref: > item_product_brand.id]
+  category_id int [ref: > item_product_category.id]
 }
 
 Table document {
@@ -25,7 +26,7 @@ Table order {
   code varchar [pk] // primary key
   customer_id int [not null]
   eta datetime
-  created_at varchar [note: 'When order created'] // add column note
+  created_at timestamp [note: 'When order created'] // add column note
 }
 
 Table status {
@@ -33,45 +34,51 @@ Table status {
   name varchar
 }
 
-Table customer_products {
+Table customer_item_products {
   customer_id int [pk, ref: > customer.id]
-  product_id int [pk, ref: > product.id]
-  start_date datetime
+  item_product_id int [pk, ref: > item_product.item_id]
+  start_date datetime [pk]
   end_date datetime
-  status int [ref: > product_status.id]
+  status int [ref: > item_product_status.id]
 }
 
-Table customer_services {
+Table customer_item_services {
   customer_id int [pk, ref: > customer.id]
-  service_id int [pk, ref: > service.id]
-  start_date datetime
+  item_service_id int [pk, ref: > item_service.item_id]
+  start_date datetime [pk]
   end_date datetime
-  status int [ref: > service_status.id]
+  status int [ref: > item_service_status.id]
 }
 
 Table order_status {
-  order_code int [pk, ref: > order.code]
+  order_code varchar [pk, ref: > order.code]
   status_id int [pk, ref: > status.id]
-  created_at timestamp
+  created_at timestamp [pk]
 }
 
-Table service_status {
+Table item_service_status {
   id int [pk]
   name varchar
 }
 
-Table product_status {
+Table item_product_status {
   id int [pk]
   name varchar
 }
 
-Table product_brand {
+Table item_product_brand {
   id int [pk]
   name varchar
 }
 
-Table product_category {
+Table item_product_category {
   id int [pk]
+  name varchar
+}
+
+Table item {
+  id int [pk]
+  item_type int [ref: > item_type.id]
   name varchar
 }
 
@@ -81,21 +88,19 @@ Table item_type {
 }
 
 Table order_items {
-  order_code int [pk, ref: > order.code]
-  item_type int [pk, ref: > item_type.id]
-  item_id int [pk, note: 'It could be product or service']
+  order_code varchar [pk, ref: > order.code]
+  item_id int [pk, ref: > item.id, note: 'It could be item_product or item_service']
   quantity int
 }
 
 Table purchase {
   code varchar [pk]
-  customer_id int [pk, ref: > customer.id]
+  customer_id int [ref: > customer.id]
   description varchar
   created_at timestamp
 }
 
 Table purchase_items {
   purchase_code varchar [pk, ref: > purchase.code]
-  item_type int [ref: > item_type.id]
-  item_id int
+  item_id int [pk, ref: > item.id, note: 'It could be item_product or item_service']
 }
