@@ -40,6 +40,11 @@ curl 'http://localhost:3000/services/1/service/4'
 
 curl 'http://localhost:3000/order/GFFKKAS'
 # {"order":"GFFKKAS","eta":"2020-05-02T10:55:37.024Z","tracking":[{"status":"started","timestamp":"2020-04-16T10:58:45.761Z"},{"status":"in_progress","timestamp":"2020-04-17T10:58:45.761Z"}]}
+
+curl --request POST 'http://localhost:3000/purchase' \
+--header 'Content-Type: application/json' \
+--data-raw '{ "customer_id": 1, "item": 2 }'
+# {"status":"Purchase ok. Pending activation"}
 ```
 
 ## WARNING
@@ -49,3 +54,11 @@ Don't keep `.env` file in the repo. It's here as it makes PoC simpler.
 Don't forget to create table `mi_movistar` and run scripts `data/db-schema.sql` and `data/db-data.sql`.
 
 You can use Adminer that should be running on `localhost:8080` (System: PostgreSQL, Server: postgres, Username: postgres, Password: postgres, Database: mi_movistar)
+
+## TO-DO LIST
+
+1. Add authentication
+2. Improve models
+3. Add permissions per route
+4. Automate database setup
+5. Add testing

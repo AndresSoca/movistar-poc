@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import { knex } from './middlewares/db';
 
 // routes
@@ -12,6 +13,12 @@ import orderRoutes from './routes/order';
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 // routes
 app.use('/health-check', healthCheckRoutes);
