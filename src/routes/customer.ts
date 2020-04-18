@@ -14,6 +14,8 @@ router.get('/:id/', async (req, res) => {
         });
     }
 
+    res.send(customer);
+
     // using bookshelf model to show how it works
     res.send({
         customer_id: customer.id,
