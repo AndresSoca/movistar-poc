@@ -1,5 +1,5 @@
 import express from 'express';
-import { Customer, Order } from '../models/models';
+import { Order } from '../models/models';
 import { bookshelf } from '../middlewares/db';
 
 const router = express.Router();

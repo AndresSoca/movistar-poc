@@ -1,5 +1,3 @@
-import { environment } from './environment';
-
 /**
  * Using config object instead of knexfile approach
  * in favor of 12-factor config methodology
