@@ -1,6 +1,6 @@
 # Movistar AR POC 
 
-For the sake of making it more real-world, setup has also a build step (here with **TypeScript**).
+Initial code for Movistar AR PoC service API
 
 ## Run
 
@@ -44,7 +44,7 @@ curl 'http://localhost:3000/order/GFFKKAS'
 curl --request POST 'http://localhost:3000/purchase' \
 --header 'Content-Type: application/json' \
 --data-raw '{ "customer_id": 1, "item": 2 }'
-# {"status":"Purchase ok. Pending activation"}
+# {"status":"Purchase ok. Pending activation","code":"NZSJEJA"} // code is randomly generated
 ```
 
 ## WARNING
