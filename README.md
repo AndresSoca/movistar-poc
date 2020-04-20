@@ -55,6 +55,18 @@ Don't forget to create table `mi_movistar` and run scripts `data/db-schema.sql` 
 
 You can use Adminer that should be running on `localhost:8080` (System: PostgreSQL, Server: postgres, Username: postgres, Password: postgres, Database: mi_movistar)
 
+## TROUBLESHOOTING
+
+### Error: Cannot find module 'Knex'
+
+If you stopped docker-compose and now are trying to `docker-compose up` and you see the error `Error: Cannot find module 'Knex'`, do the following:
+
+1. Open another terminal on go to the base folder
+2. `rm -Rf node_modules/`
+3. `npm install`
+
+The `docker-compose up` process running on the first terminal should automatically get the changes and start the application.
+
 ## TO-DO LIST
 
 1. Add authentication
