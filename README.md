@@ -74,3 +74,4 @@ The `docker-compose up` process running on the first terminal should automatical
 3. Add permissions per route
 4. Automate database setup
 5. Add testing
+6. Add message broker (RabbitMQ) (first scenario would be POST Purchase)
